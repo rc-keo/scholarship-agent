@@ -2,6 +2,7 @@ import os
 import smtplib
 import yaml
 import json
+import itertools
 from email.mime.text import MIMEText
 from duckduckgo_search import DDGS
 
@@ -17,13 +18,32 @@ def load_config():
 
 
 def load_queries():
-    """Load queries from queries.json"""
+    """Load and expand queries from queries.json"""
     try:
         with open("queries.json", "r") as f:
-            return json.load(f)
+            data = json.load(f)
+
+        base_queries = data.get("base_queries", [])
+        country_bias = data.get("country_bias", [])
+        site_bias = data.get("site_bias", [])
+
+        expanded_queries = []
+
+        # Combine base + country + site biases
+        for b in base_queries:
+            for combo in itertools.product(
+                country_bias or [""],
+                site_bias or [""]
+            ):
+                c, s = combo
+                query = " ".join([b, c, s]).strip()
+                expanded_queries.append(query)
+
+        return expanded_queries
+
     except FileNotFoundError:
         print("⚠️ queries.json not found, no queries to run")
-        return {"queries": []}
+        return []
 
 
 def search_duckduckgo(query, max_results=5):
@@ -70,7 +90,7 @@ def main():
     queries = load_queries()
 
     all_results = ""
-    for q in queries.get("queries", []):
+    for q in queries:
         results = search_duckduckgo(q, max_results=config.get("max_results", 5))
         all_results += format_results(q, results)
 
