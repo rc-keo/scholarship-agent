@@ -1,0 +1,20 @@
+# Basic profile and filters
+profile:
+  applicant_country: "Nigeria"
+  fields_focus: ["Earth Sciences", "Environmental Science", "Geoscience", "Sustainability"]
+  wants: ["Scholarship", "Tuition waiver", "Graduate Assistantship", "Teaching Assistantship"]
+  avoids: ["Unfunded", "Loan-only"]
+
+filters:
+  min_score: 2.5         # raise for stricter results
+  max_results_per_query: 20
+  max_total_results: 120
+
+email:
+  subject: "Weekly MSc Scholarships & Assistantships — Earth/Env Sci"
+  from_name: "Scholarship Agent"
+  attach_csv: true
+
+schedule:
+  cron: "0 8 * * 1"     # Monday 08:00 (Africa/Lagos)
+  timezone: "Africa/Lagos"

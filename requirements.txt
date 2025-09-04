@@ -1,0 +1,8 @@
+duckduckgo_search
+requests
+beautifulsoup4
+readability-lxml
+lxml
+dateparser
+pandas
+tldextract
