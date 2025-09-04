@@ -1,33 +1,7 @@
 {
-  "base_queries": [
-    "MSc environmental science scholarship 2025 site:.edu",
-    "earth sciences master's funding international students 2025",
-    "environmental management MSc tuition waiver 2025",
-    "geoscience master's assistantship stipend 2025",
-    "graduate assistantship environmental science 2025",
-    "MSc sustainability scholarship Africa 2025",
-    "environmental engineering master's funding 2025",
-    "MSc climate change scholarship 2025",
-    "no GRE environmental science master's funding",
-    "graduate teaching assistantship environmental science",
-    "fully funded master's environmental science 2025",
-    "MSc hydrology scholarship 2025",
-    "MSc geology scholarship 2025",
-    "MSc GIS scholarship 2025",
-    "MSc earth science tuition waiver 2025"
-  ],
-  "country_bias": [
-    "Nigeria",
-    "Africa",
-    "international students",
-    "developing countries"
-  ],
-  "site_bias": [
-    ".edu",
-    ".ac.uk",
-    ".edu.au",
-    ".ca",
-    ".ac.za",
-    ".edu.ng"
-  ]
+  "program": "MSc Environmental Science",
+  "university": "University of X",
+  "deadline": "March 15, 2025",
+  "funding": "Graduate Teaching Assistantship",
+  "link": "https://example.edu/msc-environmental-science"
 }
