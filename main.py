@@ -8,14 +8,22 @@ from duckduckgo_search import DDGS
 
 def load_config():
     """Load configuration from config.yaml"""
-    with open("config.yaml", "r") as f:
-        return yaml.safe_load(f)
+    try:
+        with open("config.yaml", "r") as f:
+            return yaml.safe_load(f)
+    except FileNotFoundError:
+        print("⚠️ config.yaml not found, using defaults")
+        return {"max_results": 5}
 
 
 def load_queries():
     """Load queries from queries.json"""
-    with open("queries.json", "r") as f:
-        return json.load(f)
+    try:
+        with open("queries.json", "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print("⚠️ queries.json not found, no queries to run")
+        return {"queries": []}
 
 
 def search_duckduckgo(query, max_results=5):
@@ -43,14 +51,18 @@ def format_results(query, results):
 
 def send_email(subject, body, from_email, to_email, password):
     """Send email using Gmail SMTP"""
-    msg = MIMEText(body, "plain", "utf-8")
-    msg["Subject"] = subject
-    msg["From"] = from_email
-    msg["To"] = to_email
+    try:
+        msg = MIMEText(body, "plain", "utf-8")
+        msg["Subject"] = subject
+        msg["From"] = from_email
+        msg["To"] = to_email
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-        server.login(from_email, password)
-        server.sendmail(from_email, [to_email], msg.as_string())
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(from_email, password)
+            server.sendmail(from_email, [to_email], msg.as_string())
+        print("✅ Email sent successfully!")
+    except Exception as e:
+        print(f"❌ Error sending email: {e}")
 
 
 def main():
@@ -62,9 +74,13 @@ def main():
         results = search_duckduckgo(q, max_results=config.get("max_results", 5))
         all_results += format_results(q, results)
 
-    from_email = os.environ["EMAIL_USER"]
-    password = os.environ["EMAIL_PASS"]
-    to_email = os.environ["TO_EMAIL"]
+    from_email = os.environ.get("EMAIL_USER")
+    password = os.environ.get("EMAIL_PASS")
+    to_email = os.environ.get("TO_EMAIL")
+
+    if not from_email or not password or not to_email:
+        print("❌ Missing email credentials (EMAIL_USER, EMAIL_PASS, TO_EMAIL). Please set them in GitHub Secrets.")
+        return
 
     send_email("Scholarship Search Results", all_results, from_email, to_email, password)
 
