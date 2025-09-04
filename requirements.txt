@@ -6,3 +6,4 @@ lxml
 dateparser
 pandas
 tldextract
+PyYAML
