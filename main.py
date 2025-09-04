@@ -142,7 +142,7 @@ def load_yaml(fp):
 # -------------------- search --------------------
 
 def ddg_search(q, max_results=20):
-    \"\"\"DuckDuckGo search via duckduckgo_search package\"\"\"
+    """DuckDuckGo search via duckduckgo_search package"""
     try:
         from duckduckgo_search import DDGS
         results = []
