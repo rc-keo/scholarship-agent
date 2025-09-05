@@ -1,20 +1,39 @@
-# Basic profile and filters
+# Applicant profile and preferences
 profile:
   applicant_country: "Nigeria"
-  fields_focus: ["Earth Sciences", "Environmental Science", "Geoscience", "Sustainability"]
-  wants: ["Scholarship", "Tuition waiver", "Graduate Assistantship", "Teaching Assistantship"]
-  avoids: ["Unfunded", "Loan-only"]
+  fields_focus: 
+    - "Earth Sciences"
+    - "Environmental Science"
+    - "Geoscience"
+    - "Sustainability"
+  wants: 
+    - "Scholarship"
+    - "Tuition waiver"
+    - "Graduate Assistantship"
+    - "Teaching Assistantship"
+  avoids: 
+    - "Unfunded"
+    - "Loan-only"
 
+# Search filters
 filters:
-  min_score: 2.5         # raise for stricter results
+  min_score: 2.5          # raise for stricter results
   max_results_per_query: 20
   max_total_results: 120
 
+# Email settings
 email:
   subject: "Weekly MSc Scholarships & Assistantships — Earth/Env Sci"
   from_name: "Scholarship Agent"
   attach_csv: true
+  sender: "your_email@gmail.com"
+  password: "your_app_password_here"   # Gmail app password
+  recipient: "your_email@gmail.com"
 
+# Scheduler (for GitHub Actions cron job)
 schedule:
-  cron: "0 8 * * 1"     # Monday 08:00 (Africa/Lagos)
+  cron: "0 8 * * 1"       # Monday 08:00 (Africa/Lagos)
   timezone: "Africa/Lagos"
+
+# Global search setting
+max_results: 5
