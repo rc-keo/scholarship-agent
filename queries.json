@@ -1,7 +1,9 @@
 {
-  "program": "MSc Environmental Science",
-  "university": "University of X",
-  "deadline": "March 15, 2025",
-  "funding": "Graduate Teaching Assistantship",
-  "link": "https://example.edu/msc-environmental-science"
+  "base_queries": [
+    "MSc Earth Sciences scholarship site:.edu",
+    "MSc Environmental Science funded program site:.edu",
+    "Geoscience MSc graduate assistantship site:.edu",
+    "Sustainability MSc teaching assistantship site:.edu",
+    "MSc Earth Sciences full funding site:.edu"
+  ]
 }
