@@ -1,9 +1,9 @@
-duckduckgo_search
+duckduckgo-search
+PyYAML
+pandas
 requests
 beautifulsoup4
 readability-lxml
 lxml
 dateparser
-pandas
 tldextract
-PyYAML
