@@ -25,7 +25,15 @@ jobs:
 
       - name: Run agent
         run: python main.py
-        env:
-          EMAIL_USER: ${{ secrets.EMAIL_USER }}
-          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
-          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+
+      - name: Upload results.json
+        uses: actions/upload-artifact@v3
+        with:
+          name: scholarship-results
+          path: results.json
+
+      - name: Upload email body
+        uses: actions/upload-artifact@v3
+        with:
+          name: scholarship-email
+          path: email_body.txt
