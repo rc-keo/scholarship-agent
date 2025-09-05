@@ -17,7 +17,7 @@ profile:
 
 # Search filters
 filters:
-  min_score: 2.5          # raise for stricter results
+  min_score: 2.5
   max_results_per_query: 20
   max_total_results: 120
 
@@ -27,7 +27,7 @@ email:
   from_name: "Scholarship Agent"
   attach_csv: true
   sender: "your_email@gmail.com"
-  password: "your_app_password_here"   # Gmail app password
+  password: ""   # leave blank, GitHub Actions will use EMAIL_PASSWORD secret
   recipient: "your_email@gmail.com"
 
 # Scheduler (for GitHub Actions cron job)
