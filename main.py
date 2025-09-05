@@ -57,10 +57,27 @@ def create_email_body(all_results):
             )
         body = "\n\n".join(body_lines)
 
-    # Save email body to file for GitHub Action
-    with open("email_body.txt", "w", encoding="utf-8") as f:
-        f.write(f"Scholarship Search Results ({datetime.today().date()})\n\n")
-        f.write(body)
+    return f"Scholarship Search Results ({datetime.today().date()})\n\n{body}"
+
+
+def send_email(subject, body, config):
+    """Send results via email using SMTP"""
+    msg = MIMEText(body, "plain", "utf-8")
+    msg["Subject"] = subject
+    msg["From"] = config["email"]["sender"]
+    msg["To"] = config["email"]["recipient"]
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(config["email"]["sender"], config["email"]["password"])
+            server.sendmail(
+                config["email"]["sender"],
+                [config["email"]["recipient"]],
+                msg.as_string()
+            )
+        print("✅ Email sent successfully")
+    except Exception as e:
+        print(f"❌ Failed to send email: {e}")
 
 
 def main():
@@ -75,8 +92,14 @@ def main():
     # Save raw results
     save_results(all_results)
 
-    # Generate email body file
-    create_email_body(all_results)
+    # Create email body
+    email_body = create_email_body(all_results)
+
+    # Print results in log (for GitHub Actions debugging)
+    print(email_body)
+
+    # Send email
+    send_email("Scholarship Search Results", email_body, config)
 
 
 if __name__ == "__main__":
