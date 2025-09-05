@@ -2,7 +2,6 @@ import os
 import smtplib
 import yaml
 import json
-from datetime import datetime
 from email.mime.text import MIMEText
 from duckduckgo_search import DDGS
 
@@ -26,7 +25,7 @@ def search_duckduckgo(query, max_results=5):
         for r in ddgs.text(query, max_results=max_results):
             results.append({
                 "program": r.get("title", "").strip(),
-                "university": "",  # placeholder, parsing later
+                "university": "Check webpage",  # placeholder
                 "funding": "Scholarship/Assistantship (check link)",
                 "deadline": "Check webpage",
                 "link": r.get("href", ""),
@@ -79,6 +78,7 @@ def main():
 
     all_results = []
     for q in queries.get("base_queries", []):
+        print(f"🔎 Searching: {q}")
         results = search_duckduckgo(q, max_results=max_results_per_query)
         all_results.extend(results)
         if len(all_results) >= max_total_results:
@@ -90,14 +90,27 @@ def main():
     # Create email body
     email_body = create_email_body(all_results)
 
+    # Save email body to text file (for GitHub artifact)
+    with open("email_body.txt", "w", encoding="utf-8") as f:
+        f.write(email_body)
+
     # Send email
     email_cfg = config.get("email", {})
+    sender_email = email_cfg.get("sender")
+    recipient_email = email_cfg.get("recipient")
+
+    # Use GitHub Actions secret if available
+    password = os.environ.get("EMAIL_PASSWORD", email_cfg.get("password"))
+
+    if not sender_email or not recipient_email or not password:
+        raise ValueError("Email credentials are missing. Check config.yaml and GitHub secrets.")
+
     send_email(
         subject=email_cfg.get("subject", "Scholarship Search Results"),
         body=email_body,
-        sender=email_cfg.get("sender"),
-        password=email_cfg.get("password"),
-        recipient=email_cfg.get("recipient"),
+        sender=sender_email,
+        password=password,
+        recipient=recipient_email,
         from_name=email_cfg.get("from_name", "Scholarship Agent"),
     )
 
